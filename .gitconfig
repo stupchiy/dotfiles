@@ -70,6 +70,11 @@
 	pp = pull -p
 	gra = "!f() { A=$(pwd) && TOPLEVEL=$(git rev-parse --show-toplevel) && cd $TOPLEVEL && git grep --full-name -In $1 | xargs -I{} echo $TOPLEVEL/{} && cd $A; }; f"
 
+[commit]
+
+	# https://help.github.com/articles/signing-commits-using-gpg/
+	gpgsign = true
+
 [color]
 	branch = auto
 	diff = auto
@@ -106,8 +111,10 @@
 
 [diff]
 	tool = icdiff
+
 [difftool]
 	prompt = false
+
 [difftool "icdiff"]
 	cmd = /usr/local/bin/icdiff --line-numbers $LOCAL $REMOTE
 
