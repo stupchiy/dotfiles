@@ -1,57 +1,56 @@
 [user]
-	name = Sergey Tupchiy
-	email = sergey.tupchiy@optile.net
+	name = Sergiy Tupchiy
+	email = stupchiy@gmail.com
 [alias]
-    # Switch profiles
-    homeprofile = config user.email \"stupchiy@gmail.com\"
-    workprofile = config user.email \"sergey.tupchiy@optile.net\"
+	# Switch profiles
+	homeprofile = config user.email \"stupchiy@gmail.com\"
+	workprofile = config user.email \"profile@work.work\"
 
-    # Print that aliases list
-    aliases = "!git config -l | grep alias | cut -c 7-"
+	# Print that aliases list
+	aliases = "!git config -l | grep alias | cut -c 7-"
 
-    # Show verbose output about tags, branches or remotes
-    tags = tag -l
-    branches = branch -a
-    remotes = remote -v
-    stashes = stash list
+	# Human readable
 
-    # Human readable
-    unstage = reset -q HEAD --
-    discard = checkout --
-    nevermind = !git reset --hard HEAD && git clean -d -f
-    uncommit = reset --mixed HEAD~
-    save = commit -m
-    resave = commit --amend
-    invert = revert
-    last = log -1 HEAD --format=format:"%Cred%H"
-    summary = status -u -s
-    graph = log --graph -10 --branches --remotes --tags  --format=format:'%Cgreen%h %Creset• %<(75,trunc)%s (%cN, %ar) %Cred%d' --date-order
-    history = log -10 --format=format:'%Cgreen%h %Creset• %s (%cN, %ar)'
-    branchout = checkout -b
-    prestage = diff -w --word-diff=color
-    precommit = diff --cached -w --word-diff=color --word-diff-regex='[^[:space:]<>]+'
-    move = mv
-    remove = rm
-    unmerged = branch --no-merged
-    unstash = stash pop
-    what = show -w
-    untrack = rm -r --cached
-    rewrite = rebase -i
-    back = checkout "-"
-    filetrail = git log --follow -p -w
-    mergetrail = log --ancestry-path --merges
-    unmerged = diff --name-only --diff-filter=U
+	# Amend the currently staged files to the latest commit
+	amend = commit --amend --reuse-message=HEAD
 
-    # Amend the currently staged files to the latest commit
-    amend = commit --amend --reuse-message=HEAD
+	assumed = "!git ls-files -v | grep ^h | cut -c 3-"
+	back = checkout "-"
+	branches = branch -a
+	branchout = checkout -b
 
-    # List contributors with number of commits
-    contributors = shortlog --summary --numbered
+	# List contributors with number of commits
+	contributors = shortlog --summary --numbered
 
-    assumed = "!git ls-files -v | grep ^h | cut -c 3-"
-    lasttag = describe --tags --abbrev=0
-	create-pull-request = !sh -c 'stash pull-request $0'
+	discard = checkout --
+	filetrail = git log --follow -p -w
+	graph = log --graph -10 --branches --remotes --tags  --format=format:'%Cgreen%h %Creset• %<(75,trunc)%s (%cN, %ar) %Cred%d' --date-order
+	history = log -10 --format=format:'%Cgreen%h %Creset• %s (%cN, %ar)'
+	invert = revert
+	last = log -1 HEAD --format=format:"%Cred%H"
+	lasttag = describe --tags --abbrev=0
+	mergetrail = log --ancestry-path --merges
+	move = mv
+	nevermind = !git reset --hard HEAD && git clean -d -f
+	precommit = diff --cached -w --word-diff=color --word-diff-regex='[^[:space:]<>]+'
+	prestage = diff -w --word-diff=color
+	remotes = remote -v
+	remove = rm
+	resave = commit --amend
+	rewrite = rebase -i
+	save = commit -m
+	stashes = stash list
+	summary = status -u -s
+	tags = tag -l
+	uncommit = reset --mixed HEAD~
+	unmerged = branch --no-merged
+	unmerged = diff --name-only --diff-filter=U
+	unstage = reset -q HEAD --
+	unstash = stash pop
+	untrack = rm -r --cached
+	what = show -w
 
+	# Shortcuts
 	cb = !git checkout master && git branch | grep -v "master" | xargs git branch -D && git pp
 	st = status -sb
 	ls = log --pretty=format:"%C(yellow)%h%Cred%d\\ %Creset%s%Cblue\\ [%cn]" --decorate
@@ -72,39 +71,38 @@
 	gra = "!f() { A=$(pwd) && TOPLEVEL=$(git rev-parse --show-toplevel) && cd $TOPLEVEL && git grep --full-name -In $1 | xargs -I{} echo $TOPLEVEL/{} && cd $A; }; f"
 
 [color]
-    branch = auto
-    diff = auto
-    interactive = auto
-    pager = true
-    status = auto
-    ui = true
+	branch = auto
+	diff = auto
+	interactive = auto
+	pager = true
+	status = auto
+	ui = true
 
 [color "status"]
-    added = blue reverse
-    changed = green
-    untracked = red
+	added = blue reverse
+	changed = green
+	untracked = red
 
 [push]
 	default = simple
 
 [core]
+	# Use custom `.gitignore` and `.gitattributes`
+	excludesfile = ~/.gitignore
+	attributesfile = ~/.gitattributes
 
-    # Use custom `.gitignore` and `.gitattributes`
-    excludesfile = ~/.gitignore
-    attributesfile = ~/.gitattributes
+	# Treat spaces before tabs and all kinds of trailing whitespace as an error
+	# [default] trailing-space: looks for spaces at the end of a line
+	# [default] space-before-tab: looks for spaces before tabs at the beginning of a line
+	whitespace = space-before-tab,-indent-with-non-tab,trailing-space
 
-    # Treat spaces before tabs and all kinds of trailing whitespace as an error
-    # [default] trailing-space: looks for spaces at the end of a line
-    # [default] space-before-tab: looks for spaces before tabs at the beginning of a line
-    whitespace = space-before-tab,-indent-with-non-tab,trailing-space
+	# Make `git rebase` safer on OS X
+	# More info: <http://www.git-tower.com/blog/make-git-rebase-safe-on-osx/>
+	trustctime = false
 
-    # Make `git rebase` safer on OS X
-    # More info: <http://www.git-tower.com/blog/make-git-rebase-safe-on-osx/>
-    trustctime = false
-
-    # Prevent showing files whose names contain non-ASCII symbols as unversioned.
-    # http://michael-kuehnel.de/git/2014/11/21/git-mac-osx-and-german-umlaute.html
-    precomposeunicode = false
+	# Prevent showing files whose names contain non-ASCII symbols as unversioned.
+	# http://michael-kuehnel.de/git/2014/11/21/git-mac-osx-and-german-umlaute.html
+	precomposeunicode = false
 
 [credential]
 	helper = osxkeychain
@@ -122,6 +120,3 @@
 	clean = git hawser clean %f
 	smudge = git hawser smudge %f
 	required = true
-
-[http]
-	postBuffer = 524288000
