@@ -83,9 +83,6 @@
 	changed = green
 	untracked = red
 
-[push]
-	default = simple
-
 [core]
 	# Use custom `.gitignore` and `.gitattributes`
 	excludesfile = ~/.gitignore
@@ -107,9 +104,12 @@
 [credential]
 	helper = osxkeychain
 
-[help]
-	# Automatically correct and execute mistyped commands
-	autocorrect = 1
+[diff]
+	tool = icdiff
+[difftool]
+	prompt = false
+[difftool "icdiff"]
+	cmd = /usr/local/bin/icdiff --line-numbers $LOCAL $REMOTE
 
 [filter "media"]
 	required = true
@@ -120,3 +120,10 @@
 	clean = git hawser clean %f
 	smudge = git hawser smudge %f
 	required = true
+
+[help]
+	# Automatically correct and execute mistyped commands
+	autocorrect = 1
+
+[push]
+	default = simple
