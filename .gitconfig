@@ -24,6 +24,7 @@
 
 	discard = checkout --
 	filetrail = git log --follow -p -w
+	glog = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset'
 	graph = log --graph -10 --branches --remotes --tags  --format=format:'%Cgreen%h %Creset• %<(75,trunc)%s (%cN, %ar) %Cred%d' --date-order
 	history = log -10 --format=format:'%Cgreen%h %Creset• %s (%cN, %ar)'
 	invert = revert
@@ -34,15 +35,18 @@
 	nevermind = !git reset --hard HEAD && git clean -d -f
 	precommit = diff --cached -w --word-diff=color --word-diff-regex='[^[:space:]<>]+'
 	prestage = diff -w --word-diff=color
+	prune = fetch --prune
 	remotes = remote -v
 	remove = rm
 	resave = commit --amend
 	rewrite = rebase -i
 	save = commit -m
 	stashes = stash list
+	stash-all = stash save --include-untracked
 	summary = status -u -s
 	tags = tag -l
 	uncommit = reset --mixed HEAD~
+	undo = reset --soft HEAD^
 	unmerged = branch --no-merged
 	unmerged = diff --name-only --diff-filter=U
 	unstage = reset -q HEAD --
@@ -71,7 +75,6 @@
 	gra = "!f() { A=$(pwd) && TOPLEVEL=$(git rev-parse --show-toplevel) && cd $TOPLEVEL && git grep --full-name -In $1 | xargs -I{} echo $TOPLEVEL/{} && cd $A; }; f"
 
 [commit]
-
 	# https://help.github.com/articles/signing-commits-using-gpg/
 	gpgsign = true
 
@@ -128,9 +131,21 @@
 	smudge = git hawser smudge %f
 	required = true
 
+[merge]
+	ff = only
+	conflictstyle = diff3
+
 [help]
 	# Automatically correct and execute mistyped commands
 	autocorrect = 1
 
 [push]
 	default = simple
+	followTags = true
+
+[status]
+	# Sometimes a newly-added folder, since it's only one line in git status, can slip under the radar.
+	showUntrackedFiles = all
+
+[transfer]
+	fsckobjects = true
